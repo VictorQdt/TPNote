@@ -129,7 +129,11 @@ public class Labyrinthe {
      * @return
      */
     public Case getCase(int lig, int col) {
-        return cases[lig][col];
+       if (lig < 0 || lig >= tailleY || col < 0 || col >= tailleX ) {
+            return null;
+        }
+        int objet = lig * tailleX + col;
+        return grille.get(objet);
 }
     
     public int getArriveeX(){
