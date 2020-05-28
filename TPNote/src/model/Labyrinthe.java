@@ -47,32 +47,22 @@ public class Labyrinthe {
      * @param fic
      * @throws FileFormatException : problème de format de fichier
      */
-    //https://openclassrooms.com/forum/sujet/labytinthe-java?fbclid=IwAR3U3pUch8XTZHgQdr5gS0Vzdd7PWat7CJQdQXraxjDNFXfLpZb6PcA_gho
-    //@autor forlixx
+    
     public Labyrinthe(File fic) throws FileFormatException, FileNotFoundException {
-        try{ //lecture du fichier
-            FileInputStream ips=new FileInputStream(fic);
-            InputStreamReader ipsr=new InputStreamReader(ips);
-            BufferedReader br =new BufferedReader(ipsr);}
-catch(FileNotFoundException e){
-    System.out.println("Fichier non trouvé");
-}
-        //initialisation des attributs de labyrinthe
-        Scanner sc = new Scanner(fic);
-        tailleX = sc.nextInt();
-        tailleY = sc.nextInt();
-        posX = departX = sc.nextInt();
-        posY = departY = sc.nextInt();
-        arriveeX = sc.nextInt();
-        arriveeY = sc.nextInt();
-        
-
-cases = new Case[tailleX][tailleY];
-for (int i = 0; i < tailleX; i++) {
-    for (int j = 0; j < tailleY; j++) {
-        cases[i][j] = new CaseImplementee(posX, posY);
-    }
-}
+        // Le fichier d'entrée
+      File file = new File("labyrinthe.txt");
+      // Créer l'objet File Reader
+      FileReader fr = new FileReader(file);
+      // Créer l'objet BufferedReader  
+      BufferedReader br = new BufferedReader(fr);  
+      int c = 0;             
+      // Lire caractère par caractère
+      while((c = br.read()) != -1)
+      {
+            // convertir l'entier en char
+            char ch = (char) c;  
+            // Afficher le caractère      
+            System.out.println(ch);    
 
 }
     
