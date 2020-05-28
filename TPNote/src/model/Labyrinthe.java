@@ -5,9 +5,9 @@
  */
 package model;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import model.Case.*;
+import java.util.*;
 
 import java.util.ArrayList;
 
@@ -21,6 +21,7 @@ public class Labyrinthe {
     private int arriveeX, arriveeY; // coordonnées d'arrivée
     private int posX, posY; // coordonnées courantes
     private ArrayList<Case> grille; // liste des cases du labyrinthe
+    Case[][] cases;
     private String message = "Mauvais format de fichier";
 
     private static class ImpossibleMoveException extends Exception {
@@ -33,7 +34,6 @@ public class Labyrinthe {
     class FileFormatException extends IOException {
         public FileFormatException() {}
         public FileFormatException(String message){};
-        public FileNotFoundException(){}
     }
     
     /**
@@ -48,7 +48,35 @@ public class Labyrinthe {
      * @throws FileFormatException : problème de format de fichier
      */
     public Labyrinthe(File fic) throws FileFormatException {
+        try{ //lecture du fichier
+            FileInputStream ips=new FileInputStream(fic);
+            InputStreamReader ipsr=new InputStreamReader(ips);
+            BufferedReader br =new BufferedReader(ipsr);}
+catch(FileNotFoundException e){
+    System.out.println("Fichier non trouvé");
+}
+        //initialisation des attributs de labyrinthe
+        Scanner sc = new Scanner(lab);
+        tailleX = sc.nextInt();
+        tailleY = sc.nextInt();
+        posX = departX = sc.nextInt();
+        posY = departY = sc.nextInt();
+        arriveeX = sc.nextInt();
+        arriveeY = sc.nextInt();
+        //création d'un tableau à l'aide d'une boucle for qui va reconnaitre la taille
+//du tableau du fichier texte et ainsi le remplir
+
+cases = new Case[tailleX][tailleY];
+for (int i = 0; i < tailleX; i++) {
+    for (int j = 0; j < tailleY; j++) {
+        cases[i][j] = new CaseImplementee(posX, posY);
+    }
+}
+for (int i = 0; i < tailleX; i++) {
+    for (int j = 0; j < tailleY; j++) {
         
+    }
+}
     }
 
     /**
