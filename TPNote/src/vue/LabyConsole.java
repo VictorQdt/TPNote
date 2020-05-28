@@ -66,6 +66,11 @@ public class LabyConsole {
      * @param c 
      */
     public void affiche(Case c) { 
+        
+         int X = c.getPositionX();
+        int Y = c.getPositionY();
+        
+        System.out.println("Position X : " + X + " position Y : " + Y);
     
     }
 
