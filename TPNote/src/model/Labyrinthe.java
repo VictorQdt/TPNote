@@ -47,7 +47,9 @@ public class Labyrinthe {
      * @param fic
      * @throws FileFormatException : problème de format de fichier
      */
-    public Labyrinthe(File fic) throws FileFormatException {
+    //https://openclassrooms.com/forum/sujet/labytinthe-java?fbclid=IwAR3U3pUch8XTZHgQdr5gS0Vzdd7PWat7CJQdQXraxjDNFXfLpZb6PcA_gho
+    //@autor forlixx
+    public Labyrinthe(File fic) throws FileFormatException, FileNotFoundException {
         try{ //lecture du fichier
             FileInputStream ips=new FileInputStream(fic);
             InputStreamReader ipsr=new InputStreamReader(ips);
@@ -56,15 +58,14 @@ catch(FileNotFoundException e){
     System.out.println("Fichier non trouvé");
 }
         //initialisation des attributs de labyrinthe
-        Scanner sc = new Scanner(lab);
+        Scanner sc = new Scanner(fic);
         tailleX = sc.nextInt();
         tailleY = sc.nextInt();
         posX = departX = sc.nextInt();
         posY = departY = sc.nextInt();
         arriveeX = sc.nextInt();
         arriveeY = sc.nextInt();
-        //création d'un tableau à l'aide d'une boucle for qui va reconnaitre la taille
-//du tableau du fichier texte et ainsi le remplir
+        
 
 cases = new Case[tailleX][tailleY];
 for (int i = 0; i < tailleX; i++) {
@@ -72,12 +73,9 @@ for (int i = 0; i < tailleX; i++) {
         cases[i][j] = new CaseImplementee(posX, posY);
     }
 }
-for (int i = 0; i < tailleX; i++) {
-    for (int j = 0; j < tailleY; j++) {
-        
-    }
+
 }
-    }
+    
 
     /**
      * Tente de se déplacer dans la case ligne et colonne en paramètres du labyrinthe et de la visiter.
@@ -89,7 +87,16 @@ for (int i = 0; i < tailleX; i++) {
      * @param colonne
      * @throws ImpossibleMoveException :  déplacement impossible
      */
-    public void move(int ligne, int colonne) throws ImpossibleMoveException{}
+    public void move(int ligne, int colonne) throws ImpossibleMoveException{
+        if ((ligne > tailleX || ligne < 0) || (colonne > tailleY || colonne < 0) || cases[ligne][colonne].canMoveToCase() == false) {
+            throw new ImpossibleMoveException();
+            //lit les positions de ligne et Y colonne demande si c'est possible de s'y
+            //deplacer. Si non, cela genère la classe ImpossibleMoveException
+        } else { //sinon ca prend les valeurs ligne et colonne
+            posX = ligne;
+            posY = colonne;
+        }
+    }
 
     /**
      *  Se déplace  aléatoirement d’une case dans l’une des 4 directions possibles (pas de diagonale) sans déborder du
@@ -99,7 +106,30 @@ for (int i = 0; i < tailleX; i++) {
      *
      * @throws ImpossibleMoveException :  déplacement impossible
      */
-    public void autoMove() throws ImpossibleMoveException {}
+    public void autoMove(){
+    
+        int movance = (int) (Math.random() * 4 ); 
+        
+        try{
+            
+             switch(movance){
+            case 0:
+                this.move(posX+1,posY);
+                break;
+            case 1:
+                this.move(posX-1,posY);
+                break;
+            case 2:
+                this.move(posX, posY+1);
+                break;
+            case 3:
+                this.move(posX, posY-1);
+                break;
+        }
+            
+        }catch(ImpossibleMoveException e){}
+         
+    }
 
     /**
      * Retourne l’objet de la Case de la grille (liste des cases) du labyrinthe à partir de ses positions lig et col en paramètres
@@ -109,7 +139,7 @@ for (int i = 0; i < tailleX; i++) {
      * @return
      */
     public Case getCase(int lig, int col) {
-        return null;
+        return cases[lig][col];
 }
 
     
