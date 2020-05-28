@@ -6,6 +6,9 @@
 package model;
 
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
 import java.util.ArrayList;
 
 /**
@@ -18,6 +21,20 @@ public class Labyrinthe {
     private int arriveeX, arriveeY; // coordonnées d'arrivée
     private int posX, posY; // coordonnées courantes
     private ArrayList<Case> grille; // liste des cases du labyrinthe
+    private String message = "Mauvais format de fichier";
+
+    private static class ImpossibleMoveException extends Exception {
+
+        public ImpossibleMoveException() {
+        }
+    }
+    
+    //https://books.google.fr/books?id=W6bomXWB-TYC&pg=PA643&lpg=PA643&dq=throws+FileFormatException&source=bl&ots=4uN6TPslnL&sig=ACfU3U3qmWxzmit1HvTRiJZeismJnCXhbw&hl=fr&sa=X&ved=2ahUKEwi519yB09bpAhVPExoKHRLkARYQ6AEwAnoECAYQAQ#v=onepage&q=throws%20FileFormatException&f=false
+    class FileFormatException extends IOException {
+        public FileFormatException() {}
+        public FileFormatException(String message){};
+        public FileNotFoundException(){}
+    }
     
     /**
      * Constructeur qui initialise tous les attributs et crée tous les objets du labyrinthe à partir du fichier lu fic en  paramètre :
@@ -30,7 +47,9 @@ public class Labyrinthe {
      * @param fic
      * @throws FileFormatException : problème de format de fichier
      */
-    public Labyrinthe(File fic) throws FileFormatException {}
+    public Labyrinthe(File fic) throws FileFormatException {
+        
+    }
 
     /**
      * Tente de se déplacer dans la case ligne et colonne en paramètres du labyrinthe et de la visiter.
@@ -52,7 +71,7 @@ public class Labyrinthe {
      *
      * @throws ImpossibleMoveException :  déplacement impossible
      */
-    public void autoMove() throws ImpossibleMoveException { … }
+    public void autoMove() throws ImpossibleMoveException {}
 
     /**
      * Retourne l’objet de la Case de la grille (liste des cases) du labyrinthe à partir de ses positions lig et col en paramètres
@@ -61,7 +80,11 @@ public class Labyrinthe {
      * @param col
      * @return
      */
-    public Case getCase(int lig, int col) { … }
+    public Case getCase(int lig, int col) {
+        return null;
+}
+
+    
 }
 
 
