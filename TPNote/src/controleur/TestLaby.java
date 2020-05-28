@@ -5,11 +5,28 @@
  */
 package controleur;
 
+import java.io.File;
+import model.Labyrinthe;
+import vue.Labyconsole;
+
 /**
  *
  * @author victo
  */
 public class TestLaby {
+    
+    Labyrinthe labyrinthe = new Labyrinthe(File fic);
+    Labyconsole console = new Labyconsole();
+    
+    public TestLaby(){}
+    
+    
+    private static class FileFormatException extends Exception {
+
+        public FileFormatException() {
+        }
+    }
+    
     /**
      * Constructeur qui instancie l’objet en attribut de la classe Labyrinthe avec le fichier fic de type File en paramètre.
      *  Cette méthode propage l’exception FileFormatException en cas de problème de format du fichier.
@@ -17,7 +34,7 @@ public class TestLaby {
      * @param fic : fichier du labyrinthe
      * @throws FileFormatException : problème de format de ficher
      */
-    public TestLaby(File fic) throws FileFormatException { … }
+    public TestLaby(File fic) throws FileFormatException {}
 
  /**
      * Déplacement récursif en profondeur dans le labyrinthe à partir des positions ligne et colonne en paramètres.
@@ -32,7 +49,8 @@ public class TestLaby {
      * @param colonne de la case
      * @return d'un booléen d'arrêt du déplacement
      */
-    public boolean deplacerDFS(int ligne, int colonne) { … }
+    public boolean deplacerDFS(int ligne, int colonne) {return false;
+}
 
  /**
      * Déplacement aléatoire dans le labyrinthe : cette méthode utilise la méthodes autoMove de Labyrinthe qui peut
@@ -43,7 +61,8 @@ public class TestLaby {
      *
      * @return d'un booléen d'arrêt du déplacement 
      */
-    public boolean deplacerAuto() { … }
+    public boolean deplacerAuto() {return false;
+}
 
  /**
      * Le main instancie l’objet du LabyConsole en attribut. Il saisit le nom du fichier du labyrinthe. Puis il instancie un
@@ -53,6 +72,7 @@ public class TestLaby {
      * retourné par le menu, soit il se déplace en profondeur avec deplacerDFS (à partir de la position de départ définie dans 
      * la classe Labyrinthe), soit aléatoirement avec deplacerAuto, soit il quitte le programme.
      */
-    public static void main(String[] args) { … }
+    public static void main(String[] args) {}
+
     
 }
