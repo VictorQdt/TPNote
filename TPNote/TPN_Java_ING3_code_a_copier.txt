@@ -1,0 +1,186 @@
+2.1) Le package modele
+
+Le package modele contient les classes suivantes où se trouvent les données :
+
+L’interface Case représente une case du labyrinthe avec les prototypes des méthodes (getters et setters) suivantes :
+
+public interface Case {
+      public int getPositionX() ; // retourne la position en X (colonne) de la case : voir attribut  positionX ci-dessous
+      public int getPositionY() ; // retourne la position en Y (ligne) de la case : voir attribut  positionY ci-dessous
+      public boolean canMoveToCase(); // retourne un booléen indiquant si on peut se déplacer dans la case : voir moved ci-dessous
+      public boolean getVisited(); // retourne un booléen indiquant si la case est visitée ou non : voir visited ci-dessous
+      public void setVisited(); // modifie la case pour qu’elle soit visitée : voir visited ci-dessous
+      public Case getVoisin(int i); // retourne le voisin numero i de la case : voir attribut voisins ci-dessous 
+      public int getNbVoisins(); // retourne le nombre de voisins de la case : voir attribut nb_voisins ci-dessous
+}
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+La classe CaseImplementee implémente l’interface Case et toutes ses méthodes ci-dessus. Ses attributs protected sont :
+
+protected int positionX, positionY; // position courante dans la case
+protected boolean visited, moved; // booléens de visite visited et d’accès moved à la case
+protected ArrayList<Case> voisins; // Liste des cases voisines
+protected int nb_voisins; // nombre de cases voisines
+
+Elle contient entre autres le constructeur suivant et l’implémentation de toutes les méthodes de l’interface Case à compléter :
+
+   /** 
+    * Constructeur qui initialise respectivement les attributs positionX et positionY avec les paramètres lig et col.
+    * Par défaut, les booléens visited et  moved sont false, la liste des voisins est vide et nb_voisins est nul.
+    */
+   public CaseImplementee(int lig, int col) { … }
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+Les classes CaseMur et CaseTrou héritent de leur classe mère CaseImplementee et leur constructeur initialise le booléen moved de la classe mère par héritage : 
+pour un mur le booléen moved est false, pour un trou il est true.
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+La classe Labyrinthe dispose des attributs private suivants :
+
+private int tailleX, tailleY; // largeur et hauteur
+private int departX, departY; // coordonnées de départ
+private int arriveeX, arriveeY; // coordonnées d'arrivée
+private int posX, posY; // coordonnées courantes
+private ArrayList<Case> grille; // liste des cases du labyrinthe
+
+Cette classe Labyrinthe contient, les méthodes suivantes, sans oublier les getters nécessaires pour la suite, à compléter :
+
+    /**
+     * Constructeur qui initialise tous les attributs et crée tous les objets du labyrinthe à partir du fichier lu fic en  paramètre :
+     * instancier toutes les cases soit de CaseMur, soit de CaseTrou en se servant de instanceof pour les distinguer.
+     * Il génère et propage l’exception FileFormatException en cas de problème de format du fichier : voir le format du
+     * fichier dans Présentation du sujet
+     * Dans le cas où le fichier n’existe pas, cela génère l’exception FileNotFoundException qu’il faut attraper pour générer
+     * l’exception FileFormatException.    
+     *
+     * @param fic
+     * @throws FileFormatException : problème de format de fichier
+     */
+    public Labyrinthe(File fic) throws FileFormatException { … }
+
+    /**
+     * Tente de se déplacer dans la case ligne et colonne en paramètres du labyrinthe et de la visiter.
+     * Il génère et propage l’exception ImpossibleMoveException en cas d’impossibilité de déplacement : voir la méthode
+     *  canMoveToCase définie dans l’interface Case et implémentée dans la classe CaseImplementee.
+     *  S’il est possible de s’y déplacer, on la visite grâce à la méthode setVisited de la classe CaseImplementee
+     *
+     * @param ligne
+     * @param colonne
+     * @throws ImpossibleMoveException :  déplacement impossible
+     */
+    public void move(int ligne, int colonne) throws ImpossibleMoveException{ … }
+
+    /**
+     *  Se déplace  aléatoirement d’une case dans l’une des 4 directions possibles (pas de diagonale) sans déborder du
+     *  labyrinthe.
+     *  Cette méthode appelle la méthode move ci-dessus et propage l’exception ImpossibleMoveException en cas
+     *  d’impossibilité de déplacement.
+     *
+     * @throws ImpossibleMoveException :  déplacement impossible
+     */
+    public void autoMove() throws ImpossibleMoveException { … }
+
+    /**
+     * Retourne l’objet de la Case de la grille (liste des cases) du labyrinthe à partir de ses positions lig et col en paramètres
+     *
+     * @param lig
+     * @param col
+     * @return
+     */
+    public Case getCase(int lig, int col) { … }
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+2.2) Le package vue
+
+Le package vue contient la classe LabyConsole associée à l’IHM
+
+Cette classe LabyConsole contient les méthodes suivantes à compléter et screenshots des résultats à obtenir :
+
+    /**
+     * Affiche le menu composé de 3 choix : déplacement aléatoire, en profondeur DFS ou quitter le programme.
+     * L’utilisateur doit saisir un choix de type int et recommencer tant qu’aucun des 3 choix proposés n’est valide,
+     *  y compris si l’utilisateur saisit des caractères au lieu d’un nombre entier.
+     * Il faut donc pouvoir convertir la saisie, y compris avec des caractères, en entier.
+     * Dans le cas où l’utilisateur saisit des caractères autres que des chiffres, cette conversion génère
+     * l’exception  NumberFormatException qu’il faut attraper pour afficher un message d’erreur,
+     * tout en pouvant recommencer la saisie.
+     *
+     * Cette méthode retourne le choix saisi.
+     *
+     * @return choix
+     */
+    public int menu() { … }
+
+    /**
+     * Affiche les coordonnées positionX et positionY protected de la Case c en paramètre
+     *
+     * @param c 
+     */
+    public void affiche(Case c) { ...  }
+
+    /**
+     * Affiche un labyrinthe en mode console en se servant des méthodes du Labyrinthe laby en paramètre :
+     * afficher toutes les cases soit de CaseMur avec le caractère ‘X’, soit de CaseTrou avec le caractère ’_’
+     * en se servant de instanceof pour les distinguer, soit le caractère ‘V’ si la case est visitée (voir  la méthode
+     *  getVisited définie dans l’interface Case et implémentée dans la classe CaseImplementee).
+     *
+     * @param laby
+     */
+    public void affiche(Labyrinthe laby) { … }
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+2.3) Le package controleur
+
+Ce package contient la classe TestLaby avec le main et les méthodes de déplacement, ainsi que les classes d’exception FileFormatException et ImpossibleMoveException. Les classes d’exception FileFormatException et ImpossibleMoveException n’existant pas, vous devez les implémenter.
+
+La classe TestLaby définit 2 objets en attributs : l’un de la classe Labyrinthe, l’autre de la classe LabyConsole. Elle implémente le constructeur et les méthodes suivants à compléter :
+
+ /**
+     * Constructeur qui instancie l’objet en attribut de la classe Labyrinthe avec le fichier fic de type File en paramètre.
+     *  Cette méthode propage l’exception FileFormatException en cas de problème de format du fichier.
+     *
+     * @param fic : fichier du labyrinthe
+     * @throws FileFormatException : problème de format de ficher
+     */
+    public TestLaby(File fic) throws FileFormatException { … }
+
+ /**
+     * Déplacement récursif en profondeur dans le labyrinthe à partir des positions ligne et colonne en paramètres.
+     *  A chaque case visitée (voir la méthode getCase de la classe Labyrinthe) dans cette ligne et colonne, pas encore visitée
+     * (voir la méthode getVisited implémentée dans la classe  CaseImplementee), on indique qu’on la visite (voir la méthode
+     * setVisited implémentée dans la classe  CaseImplementee) et on affiche  les coordonnées de la case visitée et le
+     * labyrinthe (voir les 2 méthodes surchargées affiche et affiche de LabyConsole).
+     * Cette méthode retourne un booléen indiquant l’arrêt de déplacement : true si la sortie est atteinte
+     * (voir les positions private dans la classe Labyrinthe), false sinon.
+     *
+     * @param ligne de la case
+     * @param colonne de la case
+     * @return d'un booléen d'arrêt du déplacement
+     */
+    public boolean deplacerDFS(int ligne, int colonne) { … }
+
+ /**
+     * Déplacement aléatoire dans le labyrinthe : cette méthode utilise la méthodes autoMove de Labyrinthe qui peut
+     * déclencher l’exception  ImpossibleMoveException à attraper.
+     *  A chaque case visitée, on applique les mêmes instructions que celles commentées dans la méthode deplacerDFS.
+     * Cette méthode retourne un booléen indiquant l’arrêt de déplacement : true si la sortie est atteinte
+     * (voir les positions private dans la classe Labyrinthe), false sinon.
+     *
+     * @return d'un booléen d'arrêt du déplacement 
+     */
+    public boolean deplacerAuto() { … }
+
+ /**
+     * Le main instancie l’objet du LabyConsole en attribut. Il saisit le nom du fichier du labyrinthe. Puis il instancie un
+     * objet de la classe  TestLaby avec en paramètre le fichier, ce qui peut déclencher l’exception  FileFormatException
+     * à attraper en affichant un message d’erreur sur un problème de format du fichier. Il affiche ensuite le labyrinthe avec
+     * la bonne méthode affiche de LabyConsole. Il affiche le menu avec la méthode menu de LabyConsole. Selon le choix
+     * retourné par le menu, soit il se déplace en profondeur avec deplacerDFS (à partir de la position de départ définie dans 
+     * la classe Labyrinthe), soit aléatoirement avec deplacerAuto, soit il quitte le programme.
+     */
+    public static void main(String[] args) { … }
