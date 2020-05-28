@@ -34,7 +34,12 @@ public class TestLaby {
      * @param fic : fichier du labyrinthe
      * @throws FileFormatException : problème de format de ficher
      */
-    public TestLaby(File fic) throws FileFormatException {}
+    public TestLaby(File fic){
+            try{
+               this.labyrinthe = new Labyrinthe(fic); 
+            }catch(Labyrinthe.FileFormatException | FileNotFoundException e){
+                System.out.println("Erreur format fichier");
+            }
 
  /**
      * Déplacement récursif en profondeur dans le labyrinthe à partir des positions ligne et colonne en paramètres.
@@ -49,7 +54,26 @@ public class TestLaby {
      * @param colonne de la case
      * @return d'un booléen d'arrêt du déplacement
      */
-    public boolean deplacerDFS(int ligne, int colonne) {return false;
+    public boolean deplacerDFS(int ligne, int colonne) throws Labyrinthe.ImpossibleMoveException {
+        
+            boolean continuer = false;
+            Case caseAct;
+            if(colonne == labyrinthe.getArriveeX() && ligne == labyrinthe.getArriveeY()){
+                continuer = true;
+            }else{
+                caseAct = labyrinthe.getCase(ligne, colonne);
+                labyrinthe.move(ligne, colonne);
+                caseAct.setVisited();
+                
+                for (int a=0; a<caseAct.getNbVoisins(); a++){
+                Case deuxCase = caseAct.getVoisin(a);
+                if(continuer == false && deuxCase.getVisited() == false){
+                    continuer = deplacerDFS(deuxCase.getPositionY(),deuxCase.getPositionX());
+                }
+                
+            }
+            }
+            return continuer;      
 }
 
  /**
@@ -61,8 +85,17 @@ public class TestLaby {
      *
      * @return d'un booléen d'arrêt du déplacement 
      */
-    public boolean deplacerAuto() {return false;
-}
+    public boolean deplacerAuto() {
+        this.labyrinthe.autoMove();
+        
+        if(this.labyrinthe.getArriveeX() ==  this.labyrinthe.getPosX() && this.labyrinthe.getArriveeY() == this.labyrinthe.getPosY()){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
 
  /**
      * Le main instancie l’objet du LabyConsole en attribut. Il saisit le nom du fichier du labyrinthe. Puis il instancie un
