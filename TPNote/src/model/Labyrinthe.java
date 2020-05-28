@@ -141,6 +141,27 @@ for (int i = 0; i < tailleX; i++) {
     public Case getCase(int lig, int col) {
         return cases[lig][col];
 }
+    
+    public int getArriveeX(){
+        return arriveeX;
+    }
+       public int getArriveeY(){
+        return arriveeY;
+    }
+    public int getPosX(){
+        return posX;
+    }
+        public int getPosY(){
+        return posY;
+    }
+        
+    public int sizeGrille(){
+        return grille.size();
+    }
+    
+    public Case[][] getCase(){
+        return this.cases;
+    }
 
     
 }
